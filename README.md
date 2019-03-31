@@ -31,11 +31,11 @@ swing,多线程,文件读写,多媒体文件播放等
 
 ##### 游戏界面
 
-![单人-高手](http://github.com/zhangwenkang0/SnakeGame/raw/master/show/单人-高手.png)
+![单人-高手](https://github.com/zhangwenkang0/SnakeGame/blob/master/show/单人-高手.png)
 
-![双人-激斗](http://github.com/zhangwenkang0/SnakeGame/raw/master/show/双人-激斗.png)
+![双人-激斗](https://github.com/zhangwenkang0/SnakeGame/blob/master/show/双人-激斗.png)
 
-![双人-相互伤害](http://github.com/zhangwenkang0/SnakeGame/raw/master/show/双人-相互伤害.png)
+![双人-相互伤害](https://github.com/zhangwenkang0/SnakeGame/blob/master/show/双人-相互伤害.png)
 
 ##### 谢谢你
 如果觉得这个项目对你有点用处,或者有点意思儿,请Star一下吧!
