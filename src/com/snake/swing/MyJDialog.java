@@ -1,32 +1,37 @@
-package com.snake;
+package com.snake.swing;
 
-import java.awt.Color;
 import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import javax.swing.*;
 import javax.swing.JDialog;
 import java.io.*;
 
+/**
+ * 对话框
+ */
 public class MyJDialog extends JDialog implements ActionListener{
-	private JButton btnOk;// 确定按钮
-	private JScrollPane jsp;// 滑动条
-	private JTextArea jtaShow;//显示文本域
+	// 确定按钮
+	private JButton btnOk;
+	// 滑动条
+	private JScrollPane jsp;
+	//显示文本域
+	private JTextArea jtaShow;
 	private static JLabel jlSimple[];
 
 	private static JLabel jlMiddle[];
 
 	private static JLabel jlHeight[];
 
-	//排行榜P
+	//排行榜面板
 	public JTabbedPane jtpRank;
-	private JPanel jpSimplerank;//
+	//新手
+	private JPanel jpSimplerank;
+	//普通
 	public JPanel jpMiddlerank;
+	//高手
 	private JPanel jpHeightrank;
 	
 
@@ -56,7 +61,7 @@ public class MyJDialog extends JDialog implements ActionListener{
 			
 		}
 
-		// 创建帮助排行榜
+		// 创建帮助
 		else if (str == "help") {
 			creatHelpDialog();
 		}
@@ -172,8 +177,8 @@ public class MyJDialog extends JDialog implements ActionListener{
 		jtaShow = new JTextArea("本游戏分为两种模式：单人和双人模式		  " + "单人模式：分为三种级别分别为新手、普通、高手	"
 				+ "1.新手：移动速度较慢，墙壁可穿越；吃到蛇尾则死亡。				  	  " + "2.普通：移动速度比较慢，墙壁不可穿越，撞到墙或者吃到蛇尾则死亡。			  "
 				+ "3.高手：移动速度快，有障碍物，墙壁，不可穿越，撞到墙，障碍物或者吃到蛇尾则死亡。		"
-				+ "双人模式：分为两种模式，分别为抢吃模式和限时互吃模式 ；两种模式均延续单人模式中普通级别的规则，并分别添加一下规则。     	s	"
-				+ "抢吃模式：初始生命值为10,玩家吃了一颗蛋，另一玩家生命值减少1，生命值为0的玩家败；玩家撞了另一玩家的尾，则该玩家败；" + "两玩家蛇头互撞，则生命值多的玩家胜，生命值相同则同归于尽。  "
+				+ "双人模式：分为两种模式，分别为激斗模式和限时互吃模式 ；两种模式均延续单人模式中普通级别的规则，并分别添加一下规则。     	s	"
+				+ "激斗模式：初始生命值为10,玩家吃了一颗蛋，另一玩家生命值减少1，生命值为0的玩家败；玩家撞了另一玩家的尾，则该玩家败；" + "两玩家蛇头互撞，则生命值多的玩家胜，生命值相同则同归于尽。  "
 				+ "限时互吃模式：60秒倒计时，玩家可以吃另一玩家的尾，以增加的长度;游戏时间结束，蛇长度长的玩家胜；" + "若一玩家只剩蛇头，被吃了蛇头后，该玩家败。		 			"
 				+ "常用快捷键：Esc 退出游戏   Space 开始/暂停游戏" + "小提示:加速度 Ctrl+'+' " + "减速度 Ctrl+'-'");
 		jtaShow.setFont(new Font("黑体", 0, 15));

@@ -1,9 +1,14 @@
-package com.snake;
+package com.snake.deal;
 
-import java.awt.Graphics;
+import com.snake.enums.TwoModel;
+import com.snake.game.Snake;
+import com.snake.swing.GamePanel;
+import com.snake.enums.GameStatus;
+import com.snake.swing.MySnakeGame;
 
-/*
- * ÓÎÏ·Ä£Ê½¼¶±ğ´¦Àí  */
+/**
+ * æ¸¸æˆæ¨¡å¼çº§åˆ«å¤„ç†
+ */
 public class ClassesDeal {
 	Snake snake1;
 	Snake snake2;
@@ -13,159 +18,160 @@ public class ClassesDeal {
 		this.snake2 = snake2;
 	}
 
-	// ÓÎÏ·ËÀ´¦Àí±ğ
+	// æ¸¸æˆæ­»å¤„ç†åˆ«
 	public void dieDeal() {
 		switch (GamePanel.classes) {
-		// ÂıËÙ
-		case 1:
-			// µ¥ÈË ĞÂÊÖ
-			low();
-			break;
-		// ÖĞËÙ
-		case 2:
-			// µ¥ÈË ÆÕÍ¨
-			middle(snake1);
-			// Ë«ÈËÄ£Ê½ ÇÀ³ÔÄ£Ê½
-			if (GamePanel.mode == 1) {
-				robFood();
-			}
-			if (GamePanel.mode == 2) {
-				eatEachother();
-			}
-			break;
-		// ¿ìËÙ
-		case 3:
-			// µ¥ÈË ¸ßÊÖÄ£Ê½
-			middle(snake1);
-			// ÉßÅöµ½ÕÏ°­»áËÀÍö
-			for (int i = 150; i <= 390; i += 30) {
-				if (snake1.getHead().getX() == 150 && snake1.getHead().getY() == i) {
-					snake1.isLive = false;
-					GamePanel.gameStates = GameStates.GAMEOVER;
+			// æ…¢é€Ÿ
+			case SIMPLE:
+				// å•äºº æ–°æ‰‹
+				low();
+				break;
+			// ä¸­é€Ÿ
+			case MIDDLE:
+				// å•äºº æ™®é€š
+				middle(snake1);
+				// åŒäººæ¨¡å¼ æ¿€æ–—æ¨¡å¼
+				if (GamePanel.twoModel == TwoModel.TWO_1) {
+					robFood();
 				}
-				if (snake1.getHead().getX() == 450 && snake1.getHead().getY() == i) {
-					snake1.isLive = false;
-					GamePanel.gameStates = GameStates.GAMEOVER;
+				if (GamePanel.twoModel == TwoModel.TWO_2) {
+					eatEachother();
 				}
-			}
-			break;
+				break;
+			// å¿«é€Ÿ
+			case HEIGHT:
+				// å•äºº é«˜æ‰‹æ¨¡å¼
+				middle(snake1);
+				// è›‡ç¢°åˆ°éšœç¢ä¼šæ­»äº¡
+				for (int i = 150; i <= 390; i += 30) {
+					if (snake1.getHead().getX() == 150 && snake1.getHead().getY() == i) {
+						snake1.isLive = false;
+						GamePanel.gameStatus = GameStatus.GAMEOVER;
+					}
+					if (snake1.getHead().getX() == 450 && snake1.getHead().getY() == i) {
+						snake1.isLive = false;
+						GamePanel.gameStatus = GameStatus.GAMEOVER;
+					}
+				}
+				break;
+				default:break;
 		}
 	}
 
-	// µ¥ÈË ĞÂÊÖ
+	// å•äºº æ–°æ‰‹
 	private void low() {
 		for (int i = 0; i < snake1.snakeVc.size(); i++) {
-			// Éß¿ÉÒÔ´©Ç½
+			// è›‡å¯ä»¥ç©¿å¢™
 			if (snake1.snakeVc.get(i).getX() >540)
-				{snake1.snakeVc.get(i).setX(30);}
+			{snake1.snakeVc.get(i).setX(30);}
 			else if (snake1.snakeVc.get(i).getY() >540)
-				{snake1.snakeVc.get(i).setY(30);}
+			{snake1.snakeVc.get(i).setY(30);}
 			else if (snake1.snakeVc.get(i).getX() <30)
-				{snake1.snakeVc.get(i).setX(540);}
+			{snake1.snakeVc.get(i).setX(540);}
 			else if (snake1.snakeVc.get(i).getY() <30)
 			{	snake1.snakeVc.get(i).setY(540);}
-			// ÅĞ¶ÏÊÇ·ñ³ÔÉßÎ² ÉßµÄ½ÚÊı´óÓÚ5ÊÇ²ÅÄÜ³Ôµ½×Ô¼º
+			// åˆ¤æ–­æ˜¯å¦åƒè›‡å°¾ è›‡çš„èŠ‚æ•°å¤§äº5æ˜¯æ‰èƒ½åƒåˆ°è‡ªå·±
 			for (int j = 4; j < snake1.snakeVc.size(); j++) {
 				if (snake1.getHead().getX() == snake1.snakeVc.get(j).getX()
 						&& snake1.getHead().getY() == snake1.snakeVc.get(j).getY()) {
 					snake1.isLive = false;
-					GamePanel.gameStates = GameStates.GAMEOVER;
+					GamePanel.gameStatus = GameStatus.GAMEOVER;
 				}
 
 			}
 		}
 	}
 
-	// µ¥ÈË ÆÕÍ¨
+	// å•äºº æ™®é€š
 	private void middle(Snake sanke) {
-		// ÅĞ¶ÏÊÇ·ñ³ÔÉßÎ² ÉßµÄ½ÚÊı´óÓÚ5ÊÇ²ÅÄÜ³Ôµ½×Ô¼º
+		// åˆ¤æ–­æ˜¯å¦åƒè›‡å°¾ è›‡çš„èŠ‚æ•°å¤§äº5æ˜¯æ‰èƒ½åƒåˆ°è‡ªå·±
 		for (int j = 4; j < sanke.snakeVc.size(); j++) {
 			if (sanke.getHead().getX() == sanke.snakeVc.get(j).getX()
 					&& sanke.getHead().getY() == sanke.snakeVc.get(j).getY()) {
 				sanke.isLive = false;
-				GamePanel.gameStates = GameStates.GAMEOVER;
+				GamePanel.gameStatus = GameStatus.GAMEOVER;
 			}
 
 		}
-		// ÉßÅöµ½Ç½¾Í»áËÀ
+		// è›‡ç¢°åˆ°å¢™å°±ä¼šæ­»
 		if (sanke.getHead().getX() >= 570) {
 			sanke.isLive = false;
-			GamePanel.gameStates = GameStates.GAMEOVER;
+			GamePanel.gameStatus = GameStatus.GAMEOVER;
 		} else if (sanke.getHead().getY() >= 570) {
 			sanke.isLive = false;
-			GamePanel.gameStates = GameStates.GAMEOVER;
+			GamePanel.gameStatus = GameStatus.GAMEOVER;
 		} else if (sanke.getHead().getX() < 30) {
 			sanke.isLive = false;
-			GamePanel.gameStates = GameStates.GAMEOVER;
+			GamePanel.gameStatus = GameStatus.GAMEOVER;
 		} else if (sanke.getHead().getY() < 30) {
 			sanke.isLive = false;
-			GamePanel.gameStates = GameStates.GAMEOVER;
+			GamePanel.gameStatus = GameStatus.GAMEOVER;
 		}
 	}
 
-	// Ë«ÈË ÇÀ³ÔÄ£Ê½
+	// åŒäºº æ¿€æ–—æ¨¡å¼
 	private void robFood() {
 		middle(snake2);
-		// Éß2×²Éß1
+		// è›‡2æ’è›‡1
 		for (int i = 0; i < snake1.snakeVc.size(); i++) {
 			if (snake2.getHead().getX() == snake1.snakeVc.get(i).getX()
 					&& snake2.getHead().getY() == snake1.snakeVc.get(i).getY()) {
 				if (i == 0) {
 					snake1.isLive = false;
 					snake2.isLive = false;
-					GamePanel.gameStates = GameStates.GAMEOVER;
-				} // Éß2ËÀ
+					GamePanel.gameStatus = GameStatus.GAMEOVER;
+				} // è›‡2æ­»
 				else {
 					snake2.isLive = false;
-					GamePanel.gameStates = GameStates.GAMEOVER;
+					GamePanel.gameStatus = GameStatus.GAMEOVER;
 				}
 			}
 		}
-		// Éß1×²Éß2
+		// è›‡1æ’è›‡2
 		for (int i = 0; i < snake2.snakeVc.size(); i++) {
 			if (snake1.getHead().getX() == snake2.snakeVc.get(i).getX()
 					&& snake1.getHead().getY() == snake2.snakeVc.get(i).getY()) {
 				if (i == 0) {
 					snake1.isLive = false;
 					snake2.isLive = false;
-					GamePanel.gameStates = GameStates.GAMEOVER;
+					GamePanel.gameStatus = GameStatus.GAMEOVER;
 				} else {
 					snake1.isLive = false;
-					GamePanel.gameStates = GameStates.GAMEOVER;
+					GamePanel.gameStatus = GameStatus.GAMEOVER;
 				}
 			}
 		}
-		// ÉúÃüÖµÎª0 ÓÎÏ·½áÊø
+		// ç”Ÿå‘½å€¼ä¸º0 æ¸¸æˆç»“æŸ
 		if (snake1.life == 0 || snake2.life == 0) {
-			GamePanel.gameStates = GameStates.GAMEOVER;
+			GamePanel.gameStatus = GameStatus.GAMEOVER;
 		}
 	}
 
-	//ÏŞÊ± »¥³ÔÄ£Ê½
+	//é™æ—¶ äº’åƒæ¨¡å¼
 	private void eatEachother() {
 		middle(snake2);
-		//Ê±¼äÎª0 ÓÎÏ·½áÊø
-		if(GamePanel.time==0) {GamePanel.gameStates = GameStates.GAMEOVER;}
-		// Éß2 ³Ô Éß1
+		//æ—¶é—´ä¸º0 æ¸¸æˆç»“æŸ
+		if(GamePanel.time==0) {GamePanel.gameStatus = GameStatus.GAMEOVER;}
+		// è›‡2 åƒ è›‡1
 		for (int i = 0; i < snake1.snakeVc.size(); i++) {
 			if (snake2.getHead().getX() == snake1.snakeVc.get(i).getX()
 					&& snake2.getHead().getY() == snake1.snakeVc.get(i).getY()) {
-				// ×²ÉßÍ·
+				// æ’è›‡å¤´
 				if (i == 0) {
-					// ³ÔÉßÍ·
+					// åƒè›‡å¤´
 					if (snake1.snakeVc.size() == 1) {
 						snake1.isLive = false;
-						GamePanel.gameStates = GameStates.GAMEOVER;
+						GamePanel.gameStatus = GameStatus.GAMEOVER;
 					}
-//					// ²àÃæ×²ÉßÍ· ÉßµÚ¶ş½ÚµÄXºÍY¶¼²»ÏàµÈÎª²àÃæ
+//					// ä¾§é¢æ’è›‡å¤´ è›‡ç¬¬äºŒèŠ‚çš„Xå’ŒYéƒ½ä¸ç›¸ç­‰ä¸ºä¾§é¢
 //					if (snake2.getNode2().getX() != snake1.getNode2().getX()
 //							&& snake2.getNode2().getY() != snake1.getNode2().getY()) {
 //						snake1.isLive = false;
-//						GamePanel.gameStates = GameStates.GAMEOVER;
+//						GamePanel.gameStatus = gameStatus.GAMEOVER;
 //					}
 				}
 
-				// Éß2Î²Ôö³¤ Éß1¼õÉÙ
+				// è›‡2å°¾å¢é•¿ è›‡1å‡å°‘
 				else {
 					snake2.addSnakenode();
 					if (MySnakeGame.isHaveSound == true) {
@@ -178,23 +184,23 @@ public class ClassesDeal {
 			}
 		}
 
-		// Éß1 ³Ô Éß2
+		// è›‡1 åƒ è›‡2
 		for (int i = 0; i < snake2.snakeVc.size(); i++) {
 			if (snake1.getHead().getX() == snake2.snakeVc.get(i).getX()
 					&& snake1.getHead().getY() == snake2.snakeVc.get(i).getY()) {
-				// ×²ÉßÍ·
+				// æ’è›‡å¤´
 				if (i == 0) {
-					// ³ÔÉßÍ·
+					// åƒè›‡å¤´
 					if (snake2.snakeVc.size() == 1) {
 						snake2.isLive = false;
-						GamePanel.gameStates = GameStates.GAMEOVER;
+						GamePanel.gameStatus = GameStatus.GAMEOVER;
 					}
-//					// ²àÃæ×²ÉßÍ· ÉßµÚ¶ş½ÚµÄXºÍY¶¼²»ÏàµÈÎª²àÃæ
+//					// ä¾§é¢æ’è›‡å¤´ è›‡ç¬¬äºŒèŠ‚çš„Xå’ŒYéƒ½ä¸ç›¸ç­‰ä¸ºä¾§é¢
 //					if (snake1.getNode2().getX() != snake2.getNode2().getX()
 //							&& snake1.getNode2().getY() != snake2.getNode2().getY()) {
 //						snake2.isLive = false;
-//						GamePanel.gameStates = GameStates.GAMEOVER;
-//						// Éß1Î²Ôö³¤ Éß2¼õÉÙ
+//						GamePanel.gameStatus = gameStatus.GAMEOVER;
+//						// è›‡1å°¾å¢é•¿ è›‡2å‡å°‘
 //					}
 				} else {
 					snake1.addSnakenode();

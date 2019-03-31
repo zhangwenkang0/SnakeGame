@@ -1,51 +1,52 @@
-package com.snake;
+package com.snake.game;
 
-import java.awt.Color;
+import com.snake.enums.Direction;
+
 import java.awt.Graphics;
 import java.awt.Point;
 import java.util.Vector;
 /*
- * µ¥½ÚÉßÀà*/
+ * å•èŠ‚è›‡ç±»*/
 public class SnakeNode {
 	private int x,y;
 	private Direction dir;
-	//public Vector<Integer> passedTurn;//´æ´¢ÒÑ¾­ÀúµÄ×ªÍä
-	public Vector<Point> turnXy;//´æ´¢×ªÍäµÄx¡¢y
-	public Vector<Direction> turnDir;//´æ´¢×ªÍäµÄ·½Ïò
+	//public Vector<Integer> passedTurn;//å­˜å‚¨å·²ç»å†çš„è½¬å¼¯
+	public Vector<Point> turnXy;//å­˜å‚¨è½¬å¼¯çš„xã€y
+	public Vector<Direction> turnDir;//å­˜å‚¨è½¬å¼¯çš„æ–¹å‘
 	private int size=SnakeContext.SNAKE_SIZE;
-	
+
 	public SnakeNode(int x,int y){
 		this.x=x;
 		this.y=y;
-		//´æ´¢×ªÍäµÄx¡¢y
+		//å­˜å‚¨è½¬å¼¯çš„xã€y
 		turnXy=new Vector<Point>();
-		//´æ´¢×ªÍäµÄ·½Ïò
+		//å­˜å‚¨è½¬å¼¯çš„æ–¹å‘
 		turnDir=new Vector<Direction>();
 	}
-	
-	//»­µ¥½ÚÉß
+
+	//ç”»å•èŠ‚è›‡
 	public void draw(Graphics g){
 		g.fill3DRect(x, y, size, size, false);
 	}
-		
+
 	public int getX() {
 		return x;
 	}
 	public int getY() {
 		return y;
 	}
-	
+
 	public void setX(int x) {
 		this.x = x;
 	}
 	public void setY(int y) {
 		this.y = y;
 	}
-	
+
 	public void setDir(Direction dir) {
 		this.dir = dir;
 	}
-	
+
 	public Direction getDir() {
 		return dir;
 	}

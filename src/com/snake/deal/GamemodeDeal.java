@@ -1,88 +1,93 @@
-package com.snake;
+package com.snake.deal;
+
+import com.snake.enums.GameModel;
+import com.snake.game.Egg;
+import com.snake.game.Snake;
+import com.snake.swing.GamePanel;
+import com.snake.enums.GameStatus;
+import com.snake.swing.MySnakeGame;
 
 import java.awt.Color;
 import java.awt.Graphics;
 
-//ÓÎÏ·Ä£Ê½´¦Àí
+//æ¸¸æˆæ¨¡å¼å¤„ç†
 public class GamemodeDeal {
 	private GamePanel gamePanel;
 	public static Snake snake1 = null;
 	public static Snake snake2 = null;
 	public static Egg egg = null;
 	private static ClassesDeal classesDeal = null;
-	public static int snakeLength1;// Éß1µÄ³¤¶È
-	public static int snakeLength2;// Éß2µÄ³¤¶È
-	public static int life1;// Éß1ÉúÃü
-	public static int life2;// Éß2ÉúÃü
+	public static int snakeLength1;// è›‡1çš„é•¿åº¦
+	public static int snakeLength2;// è›‡2çš„é•¿åº¦
+	public static int life1;// è›‡1ç”Ÿå‘½
+	public static int life2;// è›‡2ç”Ÿå‘½
 
 	public GamemodeDeal(GamePanel gamePanel) {
 		this.gamePanel = gamePanel;
 	}
 
-	// ÊµÀı»¯´¦Àí ÔÚGamePanel³öµ÷ÓÃ
+	// å®ä¾‹åŒ–å¤„ç† åœ¨GamePanelå‡ºè°ƒç”¨
 	public static void instantiate() {
 
 		snake1 = new Snake();
-		snake2 = new Snake(GamePanel.gameMode);
+		snake2 = new Snake(true);
 		egg = new Egg(snake1, snake2);
 		classesDeal = new ClassesDeal(snake1, snake2);
-		snakeLength1 = snake1.snakeVc.size();// Éß1µÄ³¤¶È
-		snakeLength2 = snake2.snakeVc.size();// Éß2µÄ³¤¶È
+		snakeLength1 = snake1.snakeVc.size();// è›‡1çš„é•¿åº¦
+		snakeLength2 = snake2.snakeVc.size();// è›‡2çš„é•¿åº¦
 		life1 = snake1.life;
 		life2 = snake2.life;
 	}
 
-	// ÖØ»æ·½·¨
+	// é‡ç»˜æ–¹æ³•
 	public void paint(Graphics g) {
 
-		// »­Éß
+		// ç”»è›‡
 		snake1.drawSanke(g);
-		// if (GamePanel.gameStates == GameStates.START) {
 
-		// }
-		// ³ÔÁË×Ô¼ºµÄÎ²ËÀÍö ÖØ»æÉßÍ· ÒòÃÀ¹ÛÔ­Òò ±ÜÃâÉßÎ²¸²¸ÇÁËÉßÍ·
+		// åƒäº†è‡ªå·±çš„å°¾æ­»äº¡ é‡ç»˜è›‡å¤´ å› ç¾è§‚åŸå›  é¿å…è›‡å°¾è¦†ç›–äº†è›‡å¤´
 		if (snake1.isLive == false) {
 			g.setColor(Color.red);
 			g.fill3DRect(snake1.getHead().getX(), snake1.getHead().getY(), 30, 30, false);
 		}
-		if (GamePanel.gameMode == 2) {
-			// »­Éß
+		if (GamePanel.gameMode == GameModel.TWO) {
+			// ç”»è›‡
 			snake2.drawSanke(g);
-			// ³ÔÁË×Ô¼ºµÄÎ²ËÀÍö ÖØ»æÉßÍ· ÒòÃÀ¹ÛÔ­Òò ±ÜÃâÉßÎ²¸²¸ÇÁËÉßÍ·
+			// åƒäº†è‡ªå·±çš„å°¾æ­»äº¡ é‡ç»˜è›‡å¤´ å› ç¾è§‚åŸå›  é¿å…è›‡å°¾è¦†ç›–äº†è›‡å¤´
 			if (snake2.isLive == false) {
 				g.setColor(Color.blue);
 				g.fill3DRect(snake2.getHead().getX(), snake2.getHead().getY(), 30, 30, false);
 			}
 		}
-		// µ°ËÀÍöÔòÉú³Éµ°
+		// è›‹æ­»äº¡åˆ™ç”Ÿæˆè›‹
 		if (egg.isLive == false) {
 			egg.setRandom();
 		}
 	}
 
-	// Ïß³ÌÀïµÄ´¦Àí
+	// çº¿ç¨‹é‡Œçš„å¤„ç†
 	public void threadDeal() {
 
 		snakeLength1 = snake1.snakeVc.size();
 
-		// Éß´æ»îÔòÔË¶¯
-		if (GamePanel.gameStates != GameStates.GAMEOVER) {
+		// è›‡å­˜æ´»åˆ™è¿åŠ¨
+		if (GamePanel.gameStatus != GameStatus.GAMEOVER) {
 			snake1.Snakemove();
 		}
-		// ÓĞĞÂµÄ·½Ïò Ôò½øĞĞ·½Ïò´¦Àí
+		// æœ‰æ–°çš„æ–¹å‘ åˆ™è¿›è¡Œæ–¹å‘å¤„ç†
 		if (snake1.newdirVc.size() > 0) {
 			snake1.changeDir(snake1.newdirVc.get(0));
 		}
-		// Ã»ÓĞµ°ÁË ¼´µ°±»³ÔÁË
+		// æ²¡æœ‰è›‹äº† å³è›‹è¢«åƒäº†
 		if (!egg.haveEgg()) {
 			gamePanel.eatEgg();
 		}
-		if (GamePanel.gameMode == 2) {
-			// Éß´æ»îÔòÔË¶¯
-			if (GamePanel.gameStates != GameStates.GAMEOVER) {
+		if (GamePanel.gameMode == GameModel.TWO) {
+			// è›‡å­˜æ´»åˆ™è¿åŠ¨
+			if (GamePanel.gameStatus != GameStatus.GAMEOVER) {
 				snake2.Snakemove();
 			}
-			// ÓĞĞÂµÄ·½Ïò Ôò½øĞĞ·½Ïò´¦Àí
+			// æœ‰æ–°çš„æ–¹å‘ åˆ™è¿›è¡Œæ–¹å‘å¤„ç†
 			if (snake2.newdirVc.size() > 0) {
 				snake2.changeDir(snake2.newdirVc.get(0));
 			}
@@ -90,20 +95,20 @@ public class GamemodeDeal {
 			life1 = snake1.life;
 			life2 = snake2.life;
 		}
-		// ËÀÍö´¦Àí
+		// æ­»äº¡å¤„ç†
 		classesDeal.dieDeal();
 
 	}
 
-	// ³Ôµ°´¦Àí
+	// åƒè›‹å¤„ç†
 	public void eatEgg() {
-		if (GamePanel.gameMode == 1) {
+		if (GamePanel.gameMode == GameModel.SINGAL) {
 			if (snake1.isEategg == true) {
 				snake1.addSnakenode();
 				snake1.isEategg = false;
 			}
 		}
-		if (GamePanel.gameMode == 2) {
+		if (GamePanel.gameMode == GameModel.TWO) {
 			if (snake1.isEategg == true) {
 				snake1.addSnakenode();
 				snake2.life -= 1;
@@ -121,12 +126,12 @@ public class GamemodeDeal {
 
 	}
 
-	// ÖØĞÂ¿ªÊ¼ÓÎÏ·´¦Àí
+	// é‡æ–°å¼€å§‹æ¸¸æˆå¤„ç†
 	public void restart() {
 		snake1 = new Snake();
 		snakeLength1 = snake1.snakeVc.size();
-		if (GamePanel.gameMode == 2) {
-			snake2 = new Snake(GamePanel.gameMode);
+		if (GamePanel.gameMode == GameModel.SINGAL) {
+			snake2 = new Snake(true);
 			snakeLength2 = snake2.snakeVc.size();
 			life1 = snake1.life;
 			life2 = snake2.life;

@@ -1,11 +1,15 @@
-package com.snake;
+package com.snake.game;
+
+import com.snake.enums.Classes;
+import com.snake.enums.GameModel;
+import com.snake.swing.GamePanel;
 
 import java.util.Random;
 
 public class Egg {
-	public boolean isLive;// µ°ÊÇ·ñ´æ»î
+	public boolean isLive;// è›‹æ˜¯å¦å­˜æ´»
 	public  int x, y;
-	private boolean isknock;// ÊÇ·ñÓëÉßÎ»ÖÃÖØµş
+	private boolean isknock;// æ˜¯å¦ä¸è›‡ä½ç½®é‡å 
 	private Random rd;
 	Snake snake1;
 	Snake snake2;
@@ -18,13 +22,13 @@ public class Egg {
 		isknock = true;
 	}
 
-	// Ëæ»úÉú³Éµ°µÄÎ»ÖÃ
+	// éšæœºç”Ÿæˆè›‹çš„ä½ç½®
 	public void setRandom() {
 		int xi = rd.nextInt(19)+1;
 		int yi = rd.nextInt(19)+1;
 		x = xi * 30;
 		y = yi * 30;
-		// Èç¹ûµ°µÄÎ»ÖÃºÍÉßÉí¡¢Ç½¡¢ ÕÏ°­ÖØµş ÔòËæ»úÉú³ÉĞÂÎ»ÖÃ
+		// å¦‚æœè›‹çš„ä½ç½®å’Œè›‡èº«ã€å¢™ã€ éšœç¢é‡å  åˆ™éšæœºç”Ÿæˆæ–°ä½ç½®
 		while (isKnock()) {
 			xi = rd.nextInt(19)+1;
 			yi = rd.nextInt(19)+1;
@@ -35,63 +39,63 @@ public class Egg {
 
 	}
 
-	// µ°µÄÎ»ÖÃÅĞ¶ÏÊÇ·ñ»áÓëÉßÖØµş
+	// è›‹çš„ä½ç½®åˆ¤æ–­æ˜¯å¦ä¼šä¸è›‡é‡å 
 	private boolean isKnock() {
-		for (int i = 0; i < snake1.snakeVc.size(); i++) { // µ¥½ÚÉßµÄXY
+		for (int i = 0; i < snake1.snakeVc.size(); i++) { // å•èŠ‚è›‡çš„XY
 			int x0 = snake1.snakeVc.get(i).getX();
 			int y0 = snake1.snakeVc.get(i).getY();
-			// ÖØµş
+			// é‡å 
 			if (x + 21 > x0 && x < x0 + 30 && y + 30 > y0 && y < y0 + 30) {
 				isknock = true;
 				return true;
 			}
 		}
-		if (GamePanel.gameMode == 2) {
-			for (int i = 0; i < snake2.snakeVc.size(); i++) { // µ¥½ÚÉßµÄXY
+		if (GamePanel.gameMode == GameModel.TWO) {
+			for (int i = 0; i < snake2.snakeVc.size(); i++) { // å•èŠ‚è›‡çš„XY
 				int x0 = snake2.snakeVc.get(i).getX();
 				int y0 = snake2.snakeVc.get(i).getY();
-				// ÖØµş
+				// é‡å 
 				if (x + 21 > x0 && x < x0 + 30 && y + 30 > y0 && y < y0 + 30) {
 					isknock = true;
 					return true;
 				}
 			}
 		}
-		// ºÍÇ½ÖØµş
-			if (x + 21 > 570 || x < 30 || y + 30 > 570 || y < 30) {
-				isknock = true;
-				return true;
-			}
-		// ºÍÕÏ°­ÖØµş
-		if (GamePanel.classes == 3)
+		// å’Œå¢™é‡å 
+		if (x + 21 > 570 || x < 30 || y + 30 > 570 || y < 30) {
+			isknock = true;
+			return true;
+		}
+		// å’Œéšœç¢é‡å 
+		if (GamePanel.classes == Classes.HEIGHT)
 			if (x + 21 > 150 && x < 180 && y + 30 > 150 && y < 420
 					|| x + 21 > 450 && x < 480 && y + 30 > 150 && y < 420) {
 				isknock = true;
 				return true;
 			}
-		// ²»ÖØµş
+		// ä¸é‡å 
 		isknock = false;
 		return false;
 
 	}
 
-	// ÅĞ¶Ïµ°ÊÇ·ñ±»³ÔÁË
+	// åˆ¤æ–­è›‹æ˜¯å¦è¢«åƒäº†
 	public boolean haveEgg() {
-		for (int i = 0; i < snake1.snakeVc.size(); i++) { // µ¥½ÚÉßµÄXY
+		for (int i = 0; i < snake1.snakeVc.size(); i++) { // å•èŠ‚è›‡çš„XY
 			int x0 = snake1.snakeVc.get(i).getX();
 			int y0 = snake1.snakeVc.get(i).getY();
-			// Ïà×² ÕâÔòµ°²»´æ»î µ«±»³Ô
+			// ç›¸æ’ è¿™åˆ™è›‹ä¸å­˜æ´» ä½†è¢«åƒ
 			if (x + 21 > x0 && x < x0 + 30 && y + 30 > y0 && y < y0 + 30) {
 				isLive = false;
 				snake1.isEategg=true;
 				return false;
 			}
 		}
-		if (GamePanel.gameMode == 2) {
-			for (int i = 0; i < snake2.snakeVc.size(); i++) { // µ¥½ÚÉßµÄXY
+		if (GamePanel.gameMode == GameModel.TWO) {
+			for (int i = 0; i < snake2.snakeVc.size(); i++) { // å•èŠ‚è›‡çš„XY
 				int x0 = snake2.snakeVc.get(i).getX();
 				int y0 = snake2.snakeVc.get(i).getY();
-				// Ïà×² ÕâÔòµ°²»´æ»î µ«±»³Ô
+				// ç›¸æ’ è¿™åˆ™è›‹ä¸å­˜æ´» ä½†è¢«åƒ
 				if (x + 21 > x0 && x < x0 + 30 && y + 30 > y0 && y < y0 + 30) {
 					isLive = false;
 					snake2.isEategg=true;
@@ -100,7 +104,7 @@ public class Egg {
 
 			}
 		}
-		// ·ñÔòµ°ÒÀÈ»´æ»î
+		// å¦åˆ™è›‹ä¾ç„¶å­˜æ´»
 		isLive = true;
 		return true;
 

@@ -1,4 +1,13 @@
-package com.snake;
+package com.snake.swing;
+
+import com.snake.deal.GamemodeDeal;
+import com.snake.enums.Classes;
+import com.snake.enums.GameModel;
+import com.snake.enums.GameStatus;
+import com.snake.enums.TwoModel;
+import com.snake.extra.Music;
+import com.snake.extra.Time;
+import com.snake.game.Snake;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -8,26 +17,26 @@ import java.awt.event.MouseListener;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-/*SakejmGameÖ÷º¯Êı
- * */
+/**
+ * SakejmGameä¸»å‡½æ•°
+ * @author zhangwk
+ */
 public class MySnakeGame extends JFrame implements ActionListener, MouseListener {
-	// ¶¨ÒåÃæ°å
+	// å®šä¹‰é¢æ¿
 	GamePanel mp = null;
 	JPanel rightPanel = null;
 	public static JPanel scorePanel = null;
 	JPanel statementPanel = null;
-	// ²Ëµ¥
+	// èœå•
 	private JMenuBar jmb;
 	private JMenu jmGame;
 	private JMenuItem jmtStart;
 	private JMenuItem jmtRestart;
 	private JMenuItem jmtPause;
 	private JMenuItem jmtQuit;
-	// µÚ¶şÁĞ²Ëµ¥ µÈ¼¶
+	// ç¬¬äºŒåˆ—èœå• ç­‰çº§
 	private JMenu jmMode;
 	private JMenu jmOnesnake;
 	private JMenuItem jmtSimple1;
@@ -36,7 +45,7 @@ public class MySnakeGame extends JFrame implements ActionListener, MouseListener
 	private JMenu jmTwosnake;
 	private JMenuItem jmtTwoMode1;
 	private JMenuItem jmtTwoMode2;
-	// µÚÈıÁĞ²Ëµ¥ ÒôĞ§
+	// ç¬¬ä¸‰åˆ—èœå• éŸ³æ•ˆ
 	private JMenu jmSound;
 	private JMenu jmBgm;
 	private JMenuItem jmtOpenbgm;
@@ -44,39 +53,39 @@ public class MySnakeGame extends JFrame implements ActionListener, MouseListener
 	private JMenu jmGameSound;
 	private JMenuItem jmtOpenGamesound;
 	private JMenuItem jmtCloseGamesound;
-	// µÚËÄÁĞ²Ëµ¥ ÅÅĞĞ°ñ
+	// ç¬¬å››åˆ—èœå• æ’è¡Œæ¦œ
 	private JMenu jmRank;
 	private JMenuItem jmtSimplerank;
 	private JMenuItem jmtMiddlerank;
 	private JMenuItem jmtHeightrank;
 
-	// ÓÎÏ·°ïÖú
+	// æ¸¸æˆå¸®åŠ©
 	private JMenu jmHelp;
-	// µÚÎåÁĞ²Ëµ¥ ¹ØÓÚ
+	// ç¬¬äº”åˆ—èœå• å…³äº
 	private JMenu jmAbout;
 
-	public static JLabel jlMode;// ÓÎÏ·Ä£Ê½
-	public static JLabel jlClass;// ËÙ¶È¼¶±ğ
-	public static JLabel jlScore;// ¼Æ·Ö
-	public static JLabel jlSnakeNode;// Éß³¤¶È
-	// public static JLabel JlLife;//ÉúÃü
-	public static JLabel jlRank;// µÈ¼¶
-	public static JLabel jlPlayer;// Íæ¼Ò
-	// ÉÏÏÂ×óÓÒ
+	public static JLabel jlMode;// æ¸¸æˆæ¨¡å¼
+	public static JLabel jlClass;// é€Ÿåº¦çº§åˆ«
+	public static JLabel jlScore;// è®¡åˆ†
+	public static JLabel jlSnakeNode;// è›‡é•¿åº¦
+	// public static JLabel JlLife;//ç”Ÿå‘½
+	public static JLabel jlRank;// ç­‰çº§
+	public static JLabel jlPlayer;// ç©å®¶
+	// ä¸Šä¸‹å·¦å³
 	public static JLabel jlUp;
 	public static JLabel jlDown;
 	public static JLabel jlLeft;
 	public static JLabel jlRight;
-	// ¼ÆÊ± Ë«ÈË Ä£Ê½2ÓÃµ½
+	// è®¡æ—¶ åŒäºº æ¨¡å¼2ç”¨åˆ°
 	public static JLabel jlTime;
 
-	// ±³¾°ÒôÀÖ
+	// èƒŒæ™¯éŸ³ä¹
 	private Music bgm = null;
 	public static Music gameSound = null;
-	public static boolean isHaveSound;// ÊÇ·ñÒªÓÎÏ·ÒôĞ§
-	MyJDialog myJd;// ¶Ô»°¿ò
+	public static boolean isHaveSound;// æ˜¯å¦è¦æ¸¸æˆéŸ³æ•ˆ
+	MyJDialog myJd;// å¯¹è¯æ¡†
 
-	// Ïß³ÌÀà
+	// çº¿ç¨‹ç±»
 	Time time60;
 
 	public static void main(String[] args) {
@@ -85,60 +94,60 @@ public class MySnakeGame extends JFrame implements ActionListener, MouseListener
 	}
 
 	public MySnakeGame() {
-		// ÓÎÏ·Ãæ°å
+		// æ¸¸æˆé¢æ¿
 		mp = new GamePanel(this);
 		this.add(mp);
 		this.addKeyListener(mp);
 
 		Snake snake = new Snake();
 
-		// ²Ëµ¥
+		// èœå•
 		jmb = new JMenuBar();
-		// µÚÒ»ÁĞ²Ëµ¥ ÓÎÏ·
-		jmGame = new JMenu("ÓÎÏ·(G)");
+		// ç¬¬ä¸€åˆ—èœå• æ¸¸æˆ
+		jmGame = new JMenu("æ¸¸æˆ(G)");
 		jmGame.setMnemonic('G');
-		jmtStart = new JMenuItem("¿ªÊ¼");
+		jmtStart = new JMenuItem("å¼€å§‹");
 		jmtStart.addActionListener(this);
-		jmtStart.setAccelerator(KeyStroke.getKeyStroke('S', Event.CTRL_MASK));// ÉèÖÃ¿ì½İ·½Ê½
-		jmtRestart = new JMenuItem("ÖØĞÂ¿ªÊ¼");
+		jmtStart.setAccelerator(KeyStroke.getKeyStroke('S', Event.CTRL_MASK));// è®¾ç½®å¿«æ·æ–¹å¼
+		jmtRestart = new JMenuItem("é‡æ–°å¼€å§‹");
 		jmtRestart.addActionListener(this);
 		jmtRestart.setAccelerator(KeyStroke.getKeyStroke('R', Event.CTRL_MASK));
-		jmtPause = new JMenuItem("ÔİÍ£");
+		jmtPause = new JMenuItem("æš‚åœ");
 		jmtPause.addActionListener(this);
 		jmtPause.setAccelerator(KeyStroke.getKeyStroke('P', Event.CTRL_MASK));
-		jmtQuit = new JMenuItem("ÍË³ö");
+		jmtQuit = new JMenuItem("é€€å‡º");
 		jmtQuit.addActionListener(this);
 		jmtQuit.setAccelerator(KeyStroke.getKeyStroke('Q', Event.CTRL_MASK));
-		// Ìí¼Ó
+		// æ·»åŠ 
 		jmGame.add(jmtStart);
 		jmGame.add(jmtRestart);
 		jmGame.add(jmtPause);
 		jmGame.add(jmtQuit);
-		// µÚ¶şÁĞ²Ëµ¥ µÈ¼¶
-		jmMode = new JMenu("ÓÎÏ·Ä£Ê½(M)");
+		// ç¬¬äºŒåˆ—èœå• ç­‰çº§
+		jmMode = new JMenu("æ¸¸æˆæ¨¡å¼(M)");
 		jmMode.setMnemonic('M');
-		jmOnesnake = new JMenu("µ¥ÈËÄ£Ê½(O)");
+		jmOnesnake = new JMenu("å•äºº(O)");
 		jmOnesnake.setMnemonic('O');
-		jmtSimple1 = new JMenuItem("ĞÂÊÖ");
+		jmtSimple1 = new JMenuItem("æ–°æ‰‹");
 		jmtSimple1.setAccelerator(KeyStroke.getKeyStroke('S', java.awt.Event.CTRL_MASK));
 		jmtSimple1.addActionListener(this);
-		jmtMiddle1 = new JMenuItem("ÆÕÍ¨");
+		jmtMiddle1 = new JMenuItem("æ™®é€š");
 		jmtMiddle1.setAccelerator(KeyStroke.getKeyStroke('M', java.awt.Event.CTRL_MASK));
 		jmtMiddle1.addActionListener(this);
-		jmtHeight1 = new JMenuItem("¸ßÊÖ");
+		jmtHeight1 = new JMenuItem("é«˜æ‰‹");
 		jmtHeight1.setAccelerator(KeyStroke.getKeyStroke('H', java.awt.Event.CTRL_MASK));
 		jmtHeight1.addActionListener(this);
 
-		jmTwosnake = new JMenu("Ë«ÈËÄ£Ê½");
+		jmTwosnake = new JMenu("åŒäºº(T)");
 		jmTwosnake.setMnemonic('T');
-		jmtTwoMode1 = new JMenuItem("ÇÀ³ÔÄ£Ê½");
+		jmtTwoMode1 = new JMenuItem("æ¿€æ–—");
 		jmtTwoMode1.setAccelerator(KeyStroke.getKeyStroke('S', java.awt.Event.CTRL_MASK));
 		jmtTwoMode1.addActionListener(this);
-		jmtTwoMode2 = new JMenuItem("ÏŞÊ±»¥³ÔÄ£Ê½");
+		jmtTwoMode2 = new JMenuItem("æ¥å‘€!äº’ç›¸ä¼¤å®³");
 		jmtTwoMode2.setAccelerator(KeyStroke.getKeyStroke('M', java.awt.Event.CTRL_MASK));
 		jmtTwoMode2.addActionListener(this);
 
-		// Ìí¼Ó
+		// æ·»åŠ 
 		jmMode.add(jmOnesnake);
 		jmOnesnake.add(jmtSimple1);
 		jmOnesnake.add(jmtMiddle1);
@@ -147,26 +156,26 @@ public class MySnakeGame extends JFrame implements ActionListener, MouseListener
 		jmTwosnake.add(jmtTwoMode1);
 		jmTwosnake.add(jmtTwoMode2);
 
-		// µÚÈıÁĞ²Ëµ¥ ÒôĞ§
-		jmSound = new JMenu("ÒôĞ§(S)");
+		// ç¬¬ä¸‰åˆ—èœå• éŸ³æ•ˆ
+		jmSound = new JMenu("éŸ³æ•ˆ(S)");
 		jmSound.setMnemonic('S');
-		jmBgm = new JMenu("±³¾°ÒôÀÖ(B)");
+		jmBgm = new JMenu("èƒŒæ™¯éŸ³ä¹(B)");
 		jmBgm.setMnemonic('B');
-		jmtOpenbgm = new JMenuItem("¿ª");
+		jmtOpenbgm = new JMenuItem("å¼€");
 		jmtOpenbgm.setAccelerator(KeyStroke.getKeyStroke('O', java.awt.Event.CTRL_MASK));
 		jmtOpenbgm.addActionListener(this);
-		jmtClosebgm = new JMenuItem("¹Ø");
+		jmtClosebgm = new JMenuItem("å…³");
 		jmtClosebgm.setAccelerator(KeyStroke.getKeyStroke('C', java.awt.Event.CTRL_MASK));
 		jmtClosebgm.addActionListener(this);
-		jmGameSound = new JMenu("ÓÎÏ·ÒôĞ§(M)");
+		jmGameSound = new JMenu("æ¸¸æˆéŸ³æ•ˆ(M)");
 		jmGameSound.setMnemonic('M');
-		jmtOpenGamesound = new JMenuItem("¿ª");
+		jmtOpenGamesound = new JMenuItem("å¼€");
 		jmtOpenGamesound.setAccelerator(KeyStroke.getKeyStroke('N', java.awt.Event.CTRL_MASK));
 		jmtOpenGamesound.addActionListener(this);
-		jmtCloseGamesound = new JMenuItem("¹Ø");
+		jmtCloseGamesound = new JMenuItem("å…³");
 		jmtCloseGamesound.setAccelerator(KeyStroke.getKeyStroke('M', java.awt.Event.CTRL_MASK));
 		jmtCloseGamesound.addActionListener(this);
-		// Ìí¼Ó
+		// æ·»åŠ 
 		jmBgm.add(jmtOpenbgm);
 		jmBgm.add(jmtClosebgm);
 		jmGameSound.add(jmtOpenGamesound);
@@ -174,62 +183,52 @@ public class MySnakeGame extends JFrame implements ActionListener, MouseListener
 		jmSound.add(jmBgm);
 		jmSound.add(jmGameSound);
 
-		// µÚËÄÁĞ²Ëµ¥ ÅÅĞĞ°ñ
-		jmRank = new JMenu("ÅÅĞĞ°ñ(R)");
+		// ç¬¬å››åˆ—èœå• æ’è¡Œæ¦œ
+		jmRank = new JMenu("æ’è¡Œæ¦œ(R)");
 		jmRank.setMnemonic('R');
 		jmRank.addMouseListener(this);
-//		jmtSimplerank = new JMenuItem("ĞÂÊÖÅÅĞĞ°ñ");
-//		jmtSimplerank.addActionListener(this);
-//		jmtMiddlerank = new JMenuItem("ÆÕÍ¨ÅÅĞĞ°ñ");
-//		jmtMiddlerank.addActionListener(this);
-//		jmtHeightrank = new JMenuItem("¸ßÊÖÅÅĞĞ°ñ");
-//		jmtHeightrank.addActionListener(this);
-//		// Ìí¼Ó
-//		jmRank.add(jmtSimplerank);
-//		jmRank.add(jmtMiddlerank);
-//		jmRank.add(jmtHeightrank);
 
-		// ÓÎÏ·°ïÖú
-		jmHelp = new JMenu("ÓÎÏ·°ïÖú(H)");
+
+		// æ¸¸æˆå¸®åŠ©
+		jmHelp = new JMenu("æ¸¸æˆå¸®åŠ©(H)");
 		jmHelp.setMnemonic('H');
 		jmHelp.addMouseListener(this);
 
-		// µÚÎåÁĞ²Ëµ¥ ¹ØÓÚ
-		jmAbout = new JMenu("¹ØÓÚ(A)");
+		// ç¬¬äº”åˆ—èœå• å…³äº
+		jmAbout = new JMenu("å…³äº(A)");
 		jmAbout.setMnemonic('A');
 		jmAbout.addMouseListener(this);
 
-		// Ìí¼Óµ½JMenuBar
+		// æ·»åŠ åˆ°JMenuBar
 		jmb.add(jmGame);
 		jmb.add(jmMode);
 		jmb.add(jmSound);
 		jmb.add(jmRank);
 		jmb.add(jmHelp);
 		jmb.add(jmAbout);
-		// this.add(jmb); ²»ĞèÒªÕâ²½
 
-		// ÓÒ±ßÃæ°å
+		// å³è¾¹é¢æ¿
 		rightPanel = new JPanel();
 		rightPanel.setLayout(new GridLayout(2, 1));
 		this.add(rightPanel, BorderLayout.EAST);
 
-		// ¼Æ·Ö°å
+		// è®¡åˆ†æ¿
 		scorePanel = new JPanel();
 		scorePanel.setLayout(new GridLayout(6, 1));
-		jlMode = new JLabel("ÓÎÏ·Ä£Ê½:", JLabel.CENTER);
-		jlMode.setFont(new Font("¿¬Ìå", Font.BOLD, 20));
-		jlClass = new JLabel("ÓÎÏ·¼¶±ğ:");
-		jlClass.setFont(new Font("¿¬Ìå", Font.PLAIN, 20));
-		jlScore = new JLabel("·ÖÊı:" + 0);
-		jlScore.setFont(new Font("¿¬Ìå", Font.PLAIN, 20));
-		jlSnakeNode = new JLabel("Éß³¤¶È£º3");
-		jlSnakeNode.setFont(new Font("¿¬Ìå", Font.PLAIN, 20));
-		jlRank = new JLabel("µÈ¼¶:" + 0);
-		jlRank.setFont(new Font("¿¬Ìå", Font.PLAIN, 20));
+		jlMode = new JLabel("æ¸¸æˆæ¨¡å¼:", JLabel.CENTER);
+		jlMode.setFont(new Font("æ¥·ä½“", Font.BOLD, 20));
+		jlClass = new JLabel("æ¸¸æˆçº§åˆ«:");
+		jlClass.setFont(new Font("æ¥·ä½“", Font.PLAIN, 20));
+		jlScore = new JLabel("åˆ†æ•°:" + 0);
+		jlScore.setFont(new Font("æ¥·ä½“", Font.PLAIN, 20));
+		jlSnakeNode = new JLabel("è›‡é•¿åº¦ï¼š3");
+		jlSnakeNode.setFont(new Font("æ¥·ä½“", Font.PLAIN, 20));
+		jlRank = new JLabel("ç­‰çº§:" + 0);
+		jlRank.setFont(new Font("æ¥·ä½“", Font.PLAIN, 20));
 		jlTime = new JLabel();
-		jlTime.setFont(new Font("¿¬Ìå", Font.BOLD, 20));
+		jlTime.setFont(new Font("æ¥·ä½“", Font.BOLD, 20));
 		// JlLife=new JLabel();
-		// Ìí¼Ó
+		// æ·»åŠ 
 		scorePanel.add(jlMode);
 		scorePanel.add(jlClass);
 		scorePanel.add(jlRank);
@@ -239,31 +238,31 @@ public class MySnakeGame extends JFrame implements ActionListener, MouseListener
 		// scorePanel.add(JlLife);
 
 		rightPanel.add(scorePanel);
-		// ÉèÖÃ±ß¿ò
+		// è®¾ç½®è¾¹æ¡†
 		scorePanel.setBorder(new LineBorder(Color.black, 1));
 
-		// ÓÎÏ·¿ØÖÆËµÃ÷Ãæ°å
+		// æ¸¸æˆæ§åˆ¶è¯´æ˜é¢æ¿
 		statementPanel = new JPanel();
 		statementPanel.setLayout(new GridLayout(7, 1));
-		JLabel jlContorl = new JLabel("ÓÎÏ·¿ØÖÆ", JLabel.CENTER);
-		jlContorl.setFont(new Font("¿¬Ìå", Font.BOLD, 20));
-		JLabel jlStart = new JLabel("¿ªÊ¼/ÔİÍ££ºSpace");
-		jlStart.setFont(new Font("¿¬Ìå", Font.PLAIN, 20));
+		JLabel jlContorl = new JLabel("æ¸¸æˆæ§åˆ¶", JLabel.CENTER);
+		jlContorl.setFont(new Font("æ¥·ä½“", Font.BOLD, 20));
+		JLabel jlStart = new JLabel("å¼€å§‹/æš‚åœï¼šSpace");
+		jlStart.setFont(new Font("æ¥·ä½“", Font.PLAIN, 20));
 		jlPlayer = new JLabel();
-		jlPlayer.setFont(new Font("¿¬Ìå", Font.PLAIN, 20));
+		jlPlayer.setFont(new Font("æ¥·ä½“", Font.PLAIN, 20));
 		jlUp = new JLabel();
-		jlUp.setFont(new Font("¿¬Ìå", Font.PLAIN, 20));
+		jlUp.setFont(new Font("æ¥·ä½“", Font.PLAIN, 20));
 		jlDown = new JLabel();
-		jlDown.setFont(new Font("¿¬Ìå", Font.PLAIN, 20));
+		jlDown.setFont(new Font("æ¥·ä½“", Font.PLAIN, 20));
 		jlLeft = new JLabel();
-		jlLeft.setFont(new Font("¿¬Ìå", Font.PLAIN, 20));
+		jlLeft.setFont(new Font("æ¥·ä½“", Font.PLAIN, 20));
 		jlRight = new JLabel();
-		jlRight.setFont(new Font("¿¬Ìå", Font.PLAIN, 20));
-		MySnakeGame.jlPlayer.setText("Íæ¼Ò1" + "    " + "Íæ¼Ò2");
-		MySnakeGame.jlUp.setText("ÉÏ:W" + "      " + "¡ü");
-		MySnakeGame.jlDown.setText("ÏÂ:S" + "      " + "¡ı");
-		MySnakeGame.jlLeft.setText("×ó:A" + "      " + "¡û");
-		MySnakeGame.jlRight.setText("ÓÒ:D" + "      " + "¡ú");
+		jlRight.setFont(new Font("æ¥·ä½“", Font.PLAIN, 20));
+		MySnakeGame.jlPlayer.setText("ç©å®¶1" + "    " + "ç©å®¶2");
+		MySnakeGame.jlUp.setText("ä¸Š:W" + "      " + "â†‘");
+		MySnakeGame.jlDown.setText("ä¸‹:S" + "      " + "â†“");
+		MySnakeGame.jlLeft.setText("å·¦:A" + "      " + "â†");
+		MySnakeGame.jlRight.setText("å³:D" + "      " + "â†’");
 		statementPanel.add(jlContorl);
 		statementPanel.add(jlStart);
 		statementPanel.add(jlPlayer);
@@ -272,35 +271,35 @@ public class MySnakeGame extends JFrame implements ActionListener, MouseListener
 		statementPanel.add(jlLeft);
 		statementPanel.add(jlRight);
 		rightPanel.add(statementPanel);
-		// ÉèÖÃ±ß¿ò
+		// è®¾ç½®è¾¹æ¡†
 		statementPanel.setBorder(new LineBorder(Color.black, 1));
 
-		// ±³¾°ÒôÀÖ
+		// èƒŒæ™¯éŸ³ä¹
 		bgm = new Music();
 		bgm.musicstart("sounds/bgm.wav");
 		bgm.musicLoopplay();
-		// ÓÎÏ·ÒôĞ§
+		// æ¸¸æˆéŸ³æ•ˆ
 		gameSound = new Music();
 		gameSound.musicstart("sounds/eat.wav");
-		isHaveSound = true;// ÓÎÏ·ÒôĞ§Ä¬ÈÏÎª¿ª
+		isHaveSound = true;// æ¸¸æˆéŸ³æ•ˆé»˜è®¤ä¸ºå¼€
 
-		// ÉèÖÃJFrame
-		//´°¿Ú¼àÌı
+		// è®¾ç½®JFrame
+		//çª—å£ç›‘å¬
 		this.addWindowListener(new WindowAdapter(){
 			public void windowClosing(WindowEvent e){
-				if(JOptionPane.showConfirmDialog(MySnakeGame.this, "ÄúÕæµÄÒªÍË³öÂğ£¿","È·¶¨ÍË³ö",JOptionPane.OK_CANCEL_OPTION)
-				==JOptionPane.OK_OPTION){
-			System.exit(0);}
+				if(JOptionPane.showConfirmDialog(MySnakeGame.this, "æ‚¨çœŸçš„è¦é€€å‡ºå—ï¼Ÿ","ç¡®å®šé€€å‡º",JOptionPane.OK_CANCEL_OPTION)
+						==JOptionPane.OK_OPTION){
+					System.exit(0);}
 			}
-			
+
 		});
-		this.setTitle("Ì°Ê³Éß");
+		this.setTitle("æ¿€æ–—è´ªé£Ÿè›‡");
 		this.setIconImage(new ImageIcon("images/icon.png").getImage());
 		this.setSize(768, 654);
 		this.setJMenuBar(jmb);
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		this.setLocationRelativeTo(this); // ´°¿Ú¾ÓÖĞ
+		this.setLocationRelativeTo(this); // çª—å£å±…ä¸­
 		this.setVisible(true);
 
 	}
@@ -308,89 +307,68 @@ public class MySnakeGame extends JFrame implements ActionListener, MouseListener
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		// ²Ëµ¥¼àÌı
-		// ¿ªÊ¼
+		// èœå•ç›‘å¬
+		// å¼€å§‹
 		if (e.getSource() == this.jmtStart) {
-			if(GamePanel.gameStates!=GameStates.START&&GamePanel.gameStates!=GameStates.GAMEOVER){
-			GamePanel.gameStates = GameStates.START;
-			Thread t = new Thread(mp);
-			t.start();
-			if (GamePanel.gameMode == 2 && GamePanel.mode == 2) {
-				Thread thread60 = new Thread(time60);
-				thread60.start();
-			}
+			if(GamePanel.gameStatus !=GameStatus.START&&GamePanel.gameStatus !=GameStatus.GAMEOVER){
+				GamePanel.gameStatus = GameStatus.START;
+				Thread t = new Thread(mp);
+				t.start();
+				if (GamePanel.gameMode == GameModel.TWO && GamePanel.twoModel == TwoModel.TWO_2) {
+					Thread thread60 = new Thread(time60);
+					thread60.start();
+				}
 			}
 		}
-		// ÔİÍ£
+		// æš‚åœ
 		if (e.getSource() == this.jmtPause)
-			GamePanel.gameStates = GameStates.PAUSE;
-		// ÖØĞÂ¿ªÊ¼
+			GamePanel.gameStatus = GameStatus.PAUSE;
+		// é‡æ–°å¼€å§‹
 		if (e.getSource() == this.jmtRestart)
 			mp.reStart();
-		// ÍË³öÓÎÏ·
+		// é€€å‡ºæ¸¸æˆ
 		if (e.getSource() == this.jmtQuit)
 			System.exit(0);
-		// µ¥ÉßÄ£Ê½
-		// ĞÂÊÖ
+		// å•äººæ¨¡å¼
+		// æ–°æ‰‹
 		if (e.getSource() == this.jmtSimple1) {
-			GamePanel.gameMode = 1;
-			GamePanel.mode = 0;
-			GamePanel.classes = 1;
+			GamePanel.gameMode = GameModel.SINGAL;
+			GamePanel.classes = Classes.SIMPLE;
 			GamemodeDeal.instantiate();
 			mp.reStart();
 		}
-		// ÆÕÍ¨
+		// æ™®é€š
 		if (e.getSource() == this.jmtMiddle1) {
-			GamePanel.gameMode = 1;
-			GamePanel.mode = 0;
-			GamePanel.classes = 2;
+			GamePanel.gameMode = GameModel.SINGAL;
+			GamePanel.classes = Classes.MIDDLE;
 			GamemodeDeal.instantiate();
 			mp.reStart();
 		}
-		// ¸ßÊÖ
+		// é«˜æ‰‹
 		if (e.getSource() == this.jmtHeight1) {
-			GamePanel.gameMode = 1;
-			GamePanel.mode = 0;
-			GamePanel.classes = 3;
+			GamePanel.gameMode = GameModel.SINGAL;
+			GamePanel.classes = Classes.HEIGHT;
 			GamemodeDeal.instantiate();
 			mp.reStart();
 		}
-		// Ë«ÈËÄ£Ê½
-		// ÇÀ³ÔÄ£Ê½
+		// åŒäººæ¨¡å¼
+		// æ¿€æ–—æ¨¡å¼
 		if (e.getSource() == this.jmtTwoMode1) {
-			GamePanel.gameMode = 2;
-			GamePanel.mode = 1;
-			GamePanel.classes = 2;
+			GamePanel.gameMode = GameModel.TWO;
+			GamePanel.twoModel = TwoModel.TWO_1;
+			GamePanel.classes = Classes.MIDDLE;
 			GamemodeDeal.instantiate();
 			mp.reStart();
 		}
-		// ÏŞÊ± »¥³ÔÄ£Ê½
+		// ç›¸äº’ä¼¤å®³æ¨¡å¼
 		if (e.getSource() == this.jmtTwoMode2) {
-			GamePanel.gameMode = 2;
-			GamePanel.mode = 2;
-			GamePanel.classes = 2;
+			GamePanel.gameMode = GameModel.TWO;
+			GamePanel.twoModel = TwoModel.TWO_2;
+			GamePanel.classes = Classes.MIDDLE;
 			GamemodeDeal.instantiate();
 			mp.reStart();
 		}
-//		// ĞÂÊÖÅÅĞĞ°ñ
-//		if (e.getSource() == this.jmtSimplerank) {
-//			myJd = new MyJDialog(this, "simpleRank");
-//			myJd.setVisible(true);
-//			
-//		}
-//		// ÆÕÍ¨ÅÅĞĞ°ñ
-//		if (e.getSource() == this.jmtMiddlerank) {
-//			myJd = new MyJDialog(this, "middleRank");
-//			myJd.setVisible(true);
-//
-//		}
-//		// ¸ßÊÖÅÅĞĞ°ñ
-//		if (e.getSource() == this.jmtHeightrank) {
-//			myJd = new MyJDialog(this, "heightRank");
-//			myJd.setVisible(true);
-//
-//		}
-		// ÒôĞ§
+		// éŸ³æ•ˆ
 		if (e.getSource() == this.jmtClosebgm) {
 			bgm.musicStop();
 		}
@@ -413,12 +391,12 @@ public class MySnakeGame extends JFrame implements ActionListener, MouseListener
 			myJd = new MyJDialog(this, "rank");
 			myJd.setVisible(true);
 		}
-		//°ïÖú
+		//å¸®åŠ©
 		if (e.getSource() == this.jmHelp) {
 			myJd = new MyJDialog(this, "help");
 			myJd.setVisible(true);
 		}
-		//¹ØÓÚ
+		//å…³äº
 		if (e.getSource() == this.jmAbout) {
 			myJd = new MyJDialog(this, "about");
 			myJd.setVisible(true);
