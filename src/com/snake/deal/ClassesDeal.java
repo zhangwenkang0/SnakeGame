@@ -60,20 +60,20 @@ public class ClassesDeal {
 
 	// 单人 新手
 	private void low() {
-		for (int i = 0; i < snake1.snakeVc.size(); i++) {
+		for (int i = 0; i < snake1.snakeNode.size(); i++) {
 			// 蛇可以穿墙
-			if (snake1.snakeVc.get(i).getX() >540)
-			{snake1.snakeVc.get(i).setX(30);}
-			else if (snake1.snakeVc.get(i).getY() >540)
-			{snake1.snakeVc.get(i).setY(30);}
-			else if (snake1.snakeVc.get(i).getX() <30)
-			{snake1.snakeVc.get(i).setX(540);}
-			else if (snake1.snakeVc.get(i).getY() <30)
-			{	snake1.snakeVc.get(i).setY(540);}
+			if (snake1.snakeNode.get(i).getX() >540)
+			{snake1.snakeNode.get(i).setX(30);}
+			else if (snake1.snakeNode.get(i).getY() >540)
+			{snake1.snakeNode.get(i).setY(30);}
+			else if (snake1.snakeNode.get(i).getX() <30)
+			{snake1.snakeNode.get(i).setX(540);}
+			else if (snake1.snakeNode.get(i).getY() <30)
+			{	snake1.snakeNode.get(i).setY(540);}
 			// 判断是否吃蛇尾 蛇的节数大于5是才能吃到自己
-			for (int j = 4; j < snake1.snakeVc.size(); j++) {
-				if (snake1.getHead().getX() == snake1.snakeVc.get(j).getX()
-						&& snake1.getHead().getY() == snake1.snakeVc.get(j).getY()) {
+			for (int j = 4; j < snake1.snakeNode.size(); j++) {
+				if (snake1.getHead().getX() == snake1.snakeNode.get(j).getX()
+						&& snake1.getHead().getY() == snake1.snakeNode.get(j).getY()) {
 					snake1.isLive = false;
 					GamePanel.gameStatus = GameStatus.GAMEOVER;
 				}
@@ -85,9 +85,9 @@ public class ClassesDeal {
 	// 单人 普通
 	private void middle(Snake sanke) {
 		// 判断是否吃蛇尾 蛇的节数大于5是才能吃到自己
-		for (int j = 4; j < sanke.snakeVc.size(); j++) {
-			if (sanke.getHead().getX() == sanke.snakeVc.get(j).getX()
-					&& sanke.getHead().getY() == sanke.snakeVc.get(j).getY()) {
+		for (int j = 4; j < sanke.snakeNode.size(); j++) {
+			if (sanke.getHead().getX() == sanke.snakeNode.get(j).getX()
+					&& sanke.getHead().getY() == sanke.snakeNode.get(j).getY()) {
 				sanke.isLive = false;
 				GamePanel.gameStatus = GameStatus.GAMEOVER;
 			}
@@ -113,9 +113,9 @@ public class ClassesDeal {
 	private void robFood() {
 		middle(snake2);
 		// 蛇2撞蛇1
-		for (int i = 0; i < snake1.snakeVc.size(); i++) {
-			if (snake2.getHead().getX() == snake1.snakeVc.get(i).getX()
-					&& snake2.getHead().getY() == snake1.snakeVc.get(i).getY()) {
+		for (int i = 0; i < snake1.snakeNode.size(); i++) {
+			if (snake2.getHead().getX() == snake1.snakeNode.get(i).getX()
+					&& snake2.getHead().getY() == snake1.snakeNode.get(i).getY()) {
 				if (i == 0) {
 					snake1.isLive = false;
 					snake2.isLive = false;
@@ -128,9 +128,9 @@ public class ClassesDeal {
 			}
 		}
 		// 蛇1撞蛇2
-		for (int i = 0; i < snake2.snakeVc.size(); i++) {
-			if (snake1.getHead().getX() == snake2.snakeVc.get(i).getX()
-					&& snake1.getHead().getY() == snake2.snakeVc.get(i).getY()) {
+		for (int i = 0; i < snake2.snakeNode.size(); i++) {
+			if (snake1.getHead().getX() == snake2.snakeNode.get(i).getX()
+					&& snake1.getHead().getY() == snake2.snakeNode.get(i).getY()) {
 				if (i == 0) {
 					snake1.isLive = false;
 					snake2.isLive = false;
@@ -153,13 +153,13 @@ public class ClassesDeal {
 		//时间为0 游戏结束
 		if(GamePanel.time==0) {GamePanel.gameStatus = GameStatus.GAMEOVER;}
 		// 蛇2 吃 蛇1
-		for (int i = 0; i < snake1.snakeVc.size(); i++) {
-			if (snake2.getHead().getX() == snake1.snakeVc.get(i).getX()
-					&& snake2.getHead().getY() == snake1.snakeVc.get(i).getY()) {
+		for (int i = 0; i < snake1.snakeNode.size(); i++) {
+			if (snake2.getHead().getX() == snake1.snakeNode.get(i).getX()
+					&& snake2.getHead().getY() == snake1.snakeNode.get(i).getY()) {
 				// 撞蛇头
 				if (i == 0) {
 					// 吃蛇头
-					if (snake1.snakeVc.size() == 1) {
+					if (snake1.snakeNode.size() == 1) {
 						snake1.isLive = false;
 						GamePanel.gameStatus = GameStatus.GAMEOVER;
 					}
@@ -177,7 +177,7 @@ public class ClassesDeal {
 					if (MySnakeGame.isHaveSound == true) {
 						MySnakeGame.gameSound.musicPlay();
 					}
-					if (snake1.snakeVc.size() != 1) {
+					if (snake1.snakeNode.size() != 1) {
 						snake1.removeLast();
 					}
 				}
@@ -185,13 +185,13 @@ public class ClassesDeal {
 		}
 
 		// 蛇1 吃 蛇2
-		for (int i = 0; i < snake2.snakeVc.size(); i++) {
-			if (snake1.getHead().getX() == snake2.snakeVc.get(i).getX()
-					&& snake1.getHead().getY() == snake2.snakeVc.get(i).getY()) {
+		for (int i = 0; i < snake2.snakeNode.size(); i++) {
+			if (snake1.getHead().getX() == snake2.snakeNode.get(i).getX()
+					&& snake1.getHead().getY() == snake2.snakeNode.get(i).getY()) {
 				// 撞蛇头
 				if (i == 0) {
 					// 吃蛇头
-					if (snake2.snakeVc.size() == 1) {
+					if (snake2.snakeNode.size() == 1) {
 						snake2.isLive = false;
 						GamePanel.gameStatus = GameStatus.GAMEOVER;
 					}
@@ -207,7 +207,7 @@ public class ClassesDeal {
 					if (MySnakeGame.isHaveSound == true) {
 						MySnakeGame.gameSound.musicPlay();
 					}
-					if (snake2.snakeVc.size() != 1) {
+					if (snake2.snakeNode.size() != 1) {
 						snake2.removeLast();
 					}
 				}

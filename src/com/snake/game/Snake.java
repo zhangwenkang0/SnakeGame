@@ -9,26 +9,29 @@ import com.snake.swing.GamePanel;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 /*
  * 蛇类  用于实现蛇的移动  转弯 等*/
 
 
 public class Snake {
-	public  Vector<SnakeNode> snakeVc;
+	public List<SnakeNode> snakeNode;
 	private Direction dir;//方向
-	public  Vector<Direction> newdirVc;//存储的新方向
+	public List<Direction> newdirVc;//存储的新方向
 	private boolean moveflag;//判断改变方向后是否移动  移动了才能再次改变方向
 	public  boolean isLive;//是否存活 即游戏是否结束
 	public boolean isEategg;//是否吃了蛋
+	//生命值
 	public int life;
 	private boolean theSecond;//用于判断是否是蛇2
 	private int speed=SnakeContext.SPEED;//一次走的格子数
 
 	//
 	public Snake(){
-		snakeVc=new Vector<SnakeNode>();
-		newdirVc=new Vector<Direction>();
+		snakeNode =new LinkedList<>();
+		newdirVc=new ArrayList<>();
 		dir=Direction.RIGHT;
 		moveflag=false;
 		isLive=true;
@@ -42,7 +45,7 @@ public class Snake {
 				SnakeNode sn;
 				sn=new SnakeNode(SnakeContext.SNAKE1_X-i*SnakeContext.SNAKE_SIZE,SnakeContext.SNAKE1_Y);
 				sn.setDir(this.dir);
-				snakeVc.add(sn);
+				snakeNode.add(sn);
 
 			}
 		}
@@ -53,7 +56,7 @@ public class Snake {
 				SnakeNode sn;
 				sn=new SnakeNode(SnakeContext.SNAKE1_MODE2_X-i*SnakeContext.SNAKE_SIZE,SnakeContext.SNAKE1_MODE2_Y);
 				sn.setDir(this.dir);
-				snakeVc.add(sn);
+				snakeNode.add(sn);
 
 			}
 		}
@@ -61,8 +64,8 @@ public class Snake {
 	//蛇2
 	public Snake(boolean isSecond){
 		this.theSecond=true;
-		snakeVc=new Vector<SnakeNode>();
-		newdirVc=new Vector<Direction>();
+		snakeNode =new LinkedList<SnakeNode>();
+		newdirVc=new ArrayList<Direction>();
 		dir=Direction.LEFT;
 		moveflag=false;
 		isLive=true;
@@ -76,7 +79,7 @@ public class Snake {
 				SnakeNode sn;
 				sn=new SnakeNode(SnakeContext.SNAKE2_X+i*SnakeContext.SNAKE_SIZE,SnakeContext.SNAKE2_Y);
 				sn.setDir(this.dir);
-				snakeVc.add(sn);
+				snakeNode.add(sn);
 
 			}
 		}
@@ -87,7 +90,7 @@ public class Snake {
 				SnakeNode sn;
 				sn=new SnakeNode(SnakeContext.SNAKE2_MODE2_X+i*SnakeContext.SNAKE_SIZE,SnakeContext.SNAKE2_MODE2_Y);
 				sn.setDir(this.dir);
-				snakeVc.add(sn);
+				snakeNode.add(sn);
 
 			}
 		}
@@ -96,7 +99,7 @@ public class Snake {
 	//画蛇
 	public void drawSanke(Graphics g){
 
-		for(int i=0;i<snakeVc.size();i++)
+		for(int i = 0; i< snakeNode.size(); i++)
 		{
 			if(i==0) {
 				if(!theSecond)
@@ -108,7 +111,7 @@ public class Snake {
 			}else {
 				g.setColor(Color.green);
 			}
-			snakeVc.get(i).draw(g);
+			snakeNode.get(i).draw(g);
 		}
 	}
 
@@ -127,9 +130,9 @@ public class Snake {
 					//令现在方向等于第一个新方向
 					dir=newdirVc.get(0);
 					//存储蛇头的XY  即转弯xy
-					Point Xy=new Point(snakeVc.get(0).getX(),snakeVc.get(0).getY());
+					Point Xy=new Point(snakeNode.get(0).getX(), snakeNode.get(0).getY());
 					//单人 新手模式  解决穿墙转弯问题
-					if(GamePanel.gameMode == GameModel.TWO &&GamePanel.classes == Classes.SIMPLE){
+					if(GamePanel.gameMode == GameModel.SINGAL &&GamePanel.classes == Classes.SIMPLE){
 						if(Xy.y>540) {
 							Xy.y=30;
 						}
@@ -144,11 +147,11 @@ public class Snake {
 						}
 					}
 
-					for(int i=1;i<snakeVc.size();i++){
+					for(int i = 1; i< snakeNode.size(); i++){
 						//存储转弯点
-						snakeVc.get(i).turnXy.add(Xy);
+						snakeNode.get(i).turnXy.add(Xy);
 						//存储转弯的方向
-						snakeVc.get(i).turnDir.add(dir);
+						snakeNode.get(i).turnDir.add(dir);
 
 					}
 					return true;
@@ -167,7 +170,7 @@ public class Snake {
 		if(isChangeDir(newdir)) {
 
 			//改变蛇头的方向
-			snakeVc.get(0).setDir(newdirVc.get(0));
+			snakeNode.get(0).setDir(newdirVc.get(0));
 
 			//重设置转向未移动
 			moveflag=false;
@@ -179,31 +182,31 @@ public class Snake {
 	}
 	//获得蛇头
 	public  SnakeNode getHead(){
-		return snakeVc.get(0);
+		return snakeNode.get(0);
 	}
 	//双人  第2模式使用
 	//获得第二节
 	public SnakeNode getNode2(){
-		return snakeVc.get(1);
+		return snakeNode.get(1);
 	}
 	//移出最后一节
 	public void removeLast(){
-		snakeVc.remove(snakeVc.size()-1);
+		snakeNode.remove(snakeNode.size()-1);
 	}
 	//获得蛇的长度
 	public int getsnakeSize(){
-		return snakeVc.size();
+		return snakeNode.size();
 	}
 
 	//蛇运动
 	public void Snakemove(){
-		for(int i=0;i<snakeVc.size();i++){
-			int x=snakeVc.get(i).getX();
-			int y=snakeVc.get(i).getY();
+		for(int i = 0; i< snakeNode.size(); i++){
+			int x= snakeNode.get(i).getX();
+			int y= snakeNode.get(i).getY();
 			//处理转弯
 			turn(i,x,y);
 
-			switch(snakeVc.get(i).getDir()){
+			switch(snakeNode.get(i).getDir()){
 				case UP:y-=speed;SnakeNodemove(i,x,y);break;
 				case DOWN:y+=speed;SnakeNodemove(i,x,y);break;
 				case LEFT:x-=speed;SnakeNodemove(i,x,y);break;
@@ -220,28 +223,28 @@ public class Snake {
 
 	private void SnakeNodemove(int Node,int x,int y){
 
-		switch(snakeVc.get(Node).getDir())
+		switch(snakeNode.get(Node).getDir())
 		{
 			case UP:
 
-				snakeVc.get(Node).setX(x);
-				snakeVc.get(Node).setY(y);
+				snakeNode.get(Node).setX(x);
+				snakeNode.get(Node).setY(y);
 
 				break;
 			case DOWN:
-				snakeVc.get(Node).setX(x);
-				snakeVc.get(Node).setY(y);
+				snakeNode.get(Node).setX(x);
+				snakeNode.get(Node).setY(y);
 
 				break;
 			case LEFT:
 
-				snakeVc.get(Node).setX(x);
-				snakeVc.get(Node).setY(y);
+				snakeNode.get(Node).setX(x);
+				snakeNode.get(Node).setY(y);
 
 				break;
 			case RIGHT:
-				snakeVc.get(Node).setX(x);
-				snakeVc.get(Node).setY(y);
+				snakeNode.get(Node).setX(x);
+				snakeNode.get(Node).setY(y);
 				break;
 
 		}
@@ -252,14 +255,14 @@ public class Snake {
 	private void turn(int Node,int x,int y){
 		if(!(Node==0)){
 
-			if(!(snakeVc.get(Node).turnXy.size()==0)){
-				if(x==snakeVc.get(Node).turnXy.get(0).getX()&&y==snakeVc.get(Node).turnXy.get(0).getY())
+			if(!(snakeNode.get(Node).turnXy.size()==0)){
+				if(x== snakeNode.get(Node).turnXy.get(0).getX()&&y== snakeNode.get(Node).turnXy.get(0).getY())
 				{
-					snakeVc.get(Node).setDir(snakeVc.get(Node).turnDir.get(0));
+					snakeNode.get(Node).setDir(snakeNode.get(Node).turnDir.get(0));
 
 					//转过的弯移出
-					snakeVc.get(Node).turnXy.remove(0);
-					snakeVc.get(Node).turnDir.remove(0);
+					snakeNode.get(Node).turnXy.remove(0);
+					snakeNode.get(Node).turnDir.remove(0);
 
 				}
 			}
@@ -271,30 +274,30 @@ public class Snake {
 		int x = 0, y = 0;
 		// 吃蛋后增加单节蛇 初始化该单节蛇的数据
 		// 方向为 最后一节蛇的方向
-		Direction dir = snakeVc.get(snakeVc.size() - 1).getDir();
+		Direction dir = snakeNode.get(snakeNode.size() - 1).getDir();
 		// 获得最后一节单节蛇的 未 转弯的方向和 未转弯的点的数量
-		int dircount = snakeVc.get(snakeVc.size() - 1).turnDir.size();
-		int turnxycount = snakeVc.get(snakeVc.size() - 1).turnXy.size();
+		int dircount = snakeNode.get(snakeNode.size() - 1).turnDir.size();
+		int turnxycount = snakeNode.get(snakeNode.size() - 1).turnXy.size();
 		// 设定单节蛇的X、Y
 		switch (dir) {
 			case UP:
-				x = snakeVc.get(snakeVc.size() - 1).getX();
-				y = snakeVc.get(snakeVc.size() - 1).getY() + 30;
+				x = snakeNode.get(snakeNode.size() - 1).getX();
+				y = snakeNode.get(snakeNode.size() - 1).getY() + 30;
 				// addDir=Direction.UP;
 				break;
 			case DOWN:
-				x = snakeVc.get(snakeVc.size() - 1).getX();
-				y = snakeVc.get(snakeVc.size() - 1).getY() - 30;
+				x = snakeNode.get(snakeNode.size() - 1).getX();
+				y = snakeNode.get(snakeNode.size() - 1).getY() - 30;
 				// addDir=Direction.DOWN;
 				break;
 			case LEFT:
-				x = snakeVc.get(snakeVc.size() - 1).getX() + 30;
-				y = snakeVc.get(snakeVc.size() - 1).getY();
+				x = snakeNode.get(snakeNode.size() - 1).getX() + 30;
+				y = snakeNode.get(snakeNode.size() - 1).getY();
 				// addDir=Direction.LEFT;
 				break;
 			case RIGHT:
-				x = snakeVc.get(snakeVc.size() - 1).getX() - 30;
-				y = snakeVc.get(snakeVc.size() - 1).getY();
+				x = snakeNode.get(snakeNode.size() - 1).getX() - 30;
+				y = snakeNode.get(snakeNode.size() - 1).getY();
 				// addDir=Direction.RIGHT;
 				break;
 			default:break;
@@ -304,19 +307,19 @@ public class Snake {
 		snakenode.setDir(dir);
 		// 如果最后一节单节蛇 有未转完的 弯 则把这些值赋值到 新增的单节蛇中
 		if (dircount != 0 && turnxycount != 0) {
-			Vector<Direction> turnDir = new Vector<Direction>();
+			List<Direction> turnDir = new ArrayList<>();
 			for (int i = 0; i < dircount; i++) {
-				turnDir.add(snakeVc.get(snakeVc.size() - 1).turnDir.get(i));
+				turnDir.add(snakeNode.get(snakeNode.size() - 1).turnDir.get(i));
 			}
-			Vector<Point> turnXy = new Vector<Point>();
+			List<Point> turnXy = new ArrayList<>();
 			for (int i = 0; i < turnxycount; i++) {
-				turnXy.add(snakeVc.get(snakeVc.size() - 1).turnXy.get(i));
+				turnXy.add(snakeNode.get(snakeNode.size() - 1).turnXy.get(i));
 			}
 
 			snakenode.turnDir = turnDir;
 			snakenode.turnXy = turnXy;
 		}
-		snakeVc.add(snakenode);
+		snakeNode.add(snakenode);
 	}
 
 	//获得方向

@@ -113,7 +113,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 			MySnakeGame.jlMode.setText("游戏模式：" + gameMode.getName());
 			MySnakeGame.jlClass.setText("游戏级别:" + classes.getName());
 
-			// snakeLength = Snake.snakeVc.size();
+			// snakeLength = Snake.snakeNode.size();
 			// gameModedeal.threadDeal();
 			gameModedeal.threadDeal();
 			// 单人模式

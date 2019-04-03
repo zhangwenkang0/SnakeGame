@@ -41,9 +41,9 @@ public class Egg {
 
 	// 蛋的位置判断是否会与蛇重叠
 	private boolean isKnock() {
-		for (int i = 0; i < snake1.snakeVc.size(); i++) { // 单节蛇的XY
-			int x0 = snake1.snakeVc.get(i).getX();
-			int y0 = snake1.snakeVc.get(i).getY();
+		for (int i = 0; i < snake1.snakeNode.size(); i++) { // 单节蛇的XY
+			int x0 = snake1.snakeNode.get(i).getX();
+			int y0 = snake1.snakeNode.get(i).getY();
 			// 重叠
 			if (x + 21 > x0 && x < x0 + 30 && y + 30 > y0 && y < y0 + 30) {
 				isknock = true;
@@ -51,9 +51,9 @@ public class Egg {
 			}
 		}
 		if (GamePanel.gameMode == GameModel.TWO) {
-			for (int i = 0; i < snake2.snakeVc.size(); i++) { // 单节蛇的XY
-				int x0 = snake2.snakeVc.get(i).getX();
-				int y0 = snake2.snakeVc.get(i).getY();
+			for (int i = 0; i < snake2.snakeNode.size(); i++) { // 单节蛇的XY
+				int x0 = snake2.snakeNode.get(i).getX();
+				int y0 = snake2.snakeNode.get(i).getY();
 				// 重叠
 				if (x + 21 > x0 && x < x0 + 30 && y + 30 > y0 && y < y0 + 30) {
 					isknock = true;
@@ -81,9 +81,9 @@ public class Egg {
 
 	// 判断蛋是否被吃了
 	public boolean haveEgg() {
-		for (int i = 0; i < snake1.snakeVc.size(); i++) { // 单节蛇的XY
-			int x0 = snake1.snakeVc.get(i).getX();
-			int y0 = snake1.snakeVc.get(i).getY();
+		for (int i = 0; i < snake1.snakeNode.size(); i++) { // 单节蛇的XY
+			int x0 = snake1.snakeNode.get(i).getX();
+			int y0 = snake1.snakeNode.get(i).getY();
 			// 相撞 这则蛋不存活 但被吃
 			if (x + 21 > x0 && x < x0 + 30 && y + 30 > y0 && y < y0 + 30) {
 				isLive = false;
@@ -92,9 +92,9 @@ public class Egg {
 			}
 		}
 		if (GamePanel.gameMode == GameModel.TWO) {
-			for (int i = 0; i < snake2.snakeVc.size(); i++) { // 单节蛇的XY
-				int x0 = snake2.snakeVc.get(i).getX();
-				int y0 = snake2.snakeVc.get(i).getY();
+			for (int i = 0; i < snake2.snakeNode.size(); i++) { // 单节蛇的XY
+				int x0 = snake2.snakeNode.get(i).getX();
+				int y0 = snake2.snakeNode.get(i).getY();
 				// 相撞 这则蛋不存活 但被吃
 				if (x + 21 > x0 && x < x0 + 30 && y + 30 > y0 && y < y0 + 30) {
 					isLive = false;

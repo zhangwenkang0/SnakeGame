@@ -33,8 +33,8 @@ public class GamemodeDeal {
 		snake2 = new Snake(true);
 		egg = new Egg(snake1, snake2);
 		classesDeal = new ClassesDeal(snake1, snake2);
-		snakeLength1 = snake1.snakeVc.size();// 蛇1的长度
-		snakeLength2 = snake2.snakeVc.size();// 蛇2的长度
+		snakeLength1 = snake1.snakeNode.size();// 蛇1的长度
+		snakeLength2 = snake2.snakeNode.size();// 蛇2的长度
 		life1 = snake1.life;
 		life2 = snake2.life;
 	}
@@ -68,7 +68,7 @@ public class GamemodeDeal {
 	// 线程里的处理
 	public void threadDeal() {
 
-		snakeLength1 = snake1.snakeVc.size();
+		snakeLength1 = snake1.snakeNode.size();
 
 		// 蛇存活则运动
 		if (GamePanel.gameStatus != GameStatus.GAMEOVER) {
@@ -91,7 +91,7 @@ public class GamemodeDeal {
 			if (snake2.newdirVc.size() > 0) {
 				snake2.changeDir(snake2.newdirVc.get(0));
 			}
-			snakeLength2 = snake2.snakeVc.size();
+			snakeLength2 = snake2.snakeNode.size();
 			life1 = snake1.life;
 			life2 = snake2.life;
 		}
@@ -129,10 +129,10 @@ public class GamemodeDeal {
 	// 重新开始游戏处理
 	public void restart() {
 		snake1 = new Snake();
-		snakeLength1 = snake1.snakeVc.size();
+		snakeLength1 = snake1.snakeNode.size();
 		if (GamePanel.gameMode == GameModel.SINGAL) {
 			snake2 = new Snake(true);
-			snakeLength2 = snake2.snakeVc.size();
+			snakeLength2 = snake2.snakeNode.size();
 			life1 = snake1.life;
 			life2 = snake2.life;
 		}

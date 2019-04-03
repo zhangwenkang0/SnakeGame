@@ -4,24 +4,24 @@ import com.snake.enums.Direction;
 
 import java.awt.Graphics;
 import java.awt.Point;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 /*
  * 单节蛇类*/
 public class SnakeNode {
 	private int x,y;
 	private Direction dir;
-	//public Vector<Integer> passedTurn;//存储已经历的转弯
-	public Vector<Point> turnXy;//存储转弯的x、y
-	public Vector<Direction> turnDir;//存储转弯的方向
+	public List<Point> turnXy;//存储转弯的x、y
+	public List<Direction> turnDir;//存储转弯的方向
 	private int size=SnakeContext.SNAKE_SIZE;
 
 	public SnakeNode(int x,int y){
 		this.x=x;
 		this.y=y;
 		//存储转弯的x、y
-		turnXy=new Vector<Point>();
+		turnXy=new ArrayList<Point>();
 		//存储转弯的方向
-		turnDir=new Vector<Direction>();
+		turnDir=new ArrayList<Direction>();
 	}
 
 	//画单节蛇
