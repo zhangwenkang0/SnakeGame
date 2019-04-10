@@ -44,3 +44,8 @@ swing,多线程,文件读写,多媒体文件播放等
 如果觉得这个项目对你有点用处,或者有点意思儿,请Star一下吧!
 
 有问题可联系,WX:381793016
+
+
+这是我的公众号,可以关注一起学习哈~
+
+![java从心](http://upload-images.jianshu.io/upload_images/13046507-2a035833bb679361?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
